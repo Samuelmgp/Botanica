@@ -1,3 +1,8 @@
+# Development Start Date: August 5 2025
+# Version 1.0.0
+# Author Samuel Garcia
+# Claude & Cursor Used to AID development
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
