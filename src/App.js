@@ -3,16 +3,27 @@ import './App.css';
 import PlantList from './components/PlantList';
 import AddPlantForm from './components/AddPlantForm';
 import Dashboard from './components/Dashboard';
+import AboutUs from './components/AboutUs';
+import Login from './components/Login';
 import weatherService from './services/weatherService';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [currentView, setCurrentView] = useState('about'); // about, login, app
   const [plants, setPlants] = useState([]);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [userLocation, setUserLocation] = useState('');
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
+    const savedUser = localStorage.getItem('botanica-user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+      setCurrentView('app');
+    }
+
     const savedPlants = localStorage.getItem('botanica-plants');
     if (savedPlants) {
       setPlants(JSON.parse(savedPlants));
@@ -35,6 +46,25 @@ function App() {
       fetchWeather(userLocation);
     }
   }, [userLocation]);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('botanica-user', JSON.stringify(userData));
+    setCurrentView('app');
+    showNotification('Welcome to Botanica! 🌱', 'success');
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('botanica-user');
+    setCurrentView('about');
+    showNotification('Logged out successfully', 'info');
+  };
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   const fetchWeather = async (location) => {
     if (!location) return;
@@ -62,6 +92,11 @@ function App() {
       nextFeeding: new Date(Date.now() + plant.feedingFrequency * 24 * 60 * 60 * 1000)
     };
     setPlants([...plants, newPlant]);
+    
+    // Show success notification and redirect to dashboard
+    const plantTypeText = plant.autoPopulated ? plant.plantType : 'plant';
+    showNotification(`🌱 ${plant.name} (${plantTypeText}) added successfully!`, 'success');
+    setActiveTab('dashboard');
   };
 
   const updatePlant = (updatedPlant) => {
@@ -108,10 +143,53 @@ function App() {
     }
   };
 
+  // Render different views based on current state
+  if (currentView === 'about') {
+    return (
+      <div className="App">
+        {notification && (
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        )}
+        <AboutUs onGetStarted={() => setCurrentView('login')} />
+      </div>
+    );
+  }
+
+  if (currentView === 'login') {
+    return (
+      <div className="App">
+        {notification && (
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        )}
+        <Login 
+          onLogin={handleLogin} 
+          onBackToAbout={() => setCurrentView('about')} 
+        />
+      </div>
+    );
+  }
+
+  // Main app view (authenticated)
   return (
     <div className="App">
+      {notification && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
+      
       <header className="App-header">
-        <h1>🌱 Botanica - Plant Care Scheduler</h1>
+        <div className="header-content">
+          <h1>🌱 Botanica</h1>
+          <div className="user-info">
+            <span>Welcome, {user?.name}!</span>
+            <button onClick={handleLogout} className="btn-logout">Logout</button>
+          </div>
+        </div>
         <nav className="nav-tabs">
           <button 
             className={activeTab === 'dashboard' ? 'active' : ''}
@@ -135,7 +213,7 @@ function App() {
       </header>
 
       <main className="App-main">
-        {!userLocation && (
+        {!userLocation && currentView === 'app' && (
           <div className="location-setup">
             <h3>🌍 Set Your Location</h3>
             <p>Enter your city to get weather-based care recommendations for outdoor plants:</p>

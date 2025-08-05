@@ -151,27 +151,18 @@ const Dashboard = ({ plants, markWatered, markFed, weather, forecast, userLocati
           </div>
 
           {forecast && forecast.length > 0 && (
-            <div className="weather-forecast">
-              <h3>5-Day Forecast</h3>
-              <div className="forecast-grid">
-                {forecast.slice(0, 5).map((day, index) => (
-                  <div key={index} className="forecast-day">
-                    <div className="forecast-date">{getFormattedDate(day.date)}</div>
-                    <div className="forecast-icon">{getWeatherIcon(day.description)}</div>
-                    <div className="forecast-temps">
-                      <span className="temp-high">{day.temperature.max}°</span>
-                      <span className="temp-low">{day.temperature.min}°</span>
-                    </div>
-                    <div className="forecast-desc">{day.description}</div>
+            <div className="weather-forecast-compact">
+              <h4>Next 3 Days</h4>
+              <div className="forecast-row">
+                {forecast.slice(0, 3).map((day, index) => (
+                  <div key={index} className="forecast-item">
+                    <span className="forecast-day-name">{getFormattedDate(day.date)}</span>
+                    <span className="forecast-weather">{getWeatherIcon(day.description)} {day.temperature.max}°/{day.temperature.min}°</span>
                     {day.precipitation > 0 && (
-                      <div className="forecast-rain">💧 {day.precipitation.toFixed(1)}mm</div>
+                      <span className="forecast-rain-compact">💧 {day.precipitation.toFixed(1)}mm</span>
                     )}
-                    <div className="forecast-humidity">💨 {day.humidity}%</div>
                   </div>
                 ))}
-              </div>
-              <div className="forecast-note">
-                💡 Rainy days ahead? Consider reducing watering for outdoor plants.
               </div>
             </div>
           )}
@@ -248,17 +239,32 @@ const Dashboard = ({ plants, markWatered, markFed, weather, forecast, userLocati
               return wateringDate.getTime() === date.getTime() || feedingDate.getTime() === date.getTime();
             });
 
+            // Get weather for this day if available
+            const dayWeather = forecast && forecast.find(f => {
+              const forecastDate = new Date(f.date);
+              forecastDate.setHours(0, 0, 0, 0);
+              return forecastDate.getTime() === date.getTime();
+            });
+
             return (
               <div key={i} className={`day-column ${i === 0 ? 'today' : ''}`}>
                 <div className="day-header">
                   <div className="day-name">{date.toLocaleDateString('en', { weekday: 'short' })}</div>
                   <div className="day-date">{date.getDate()}</div>
+                  {dayWeather && (
+                    <div className="day-weather">
+                      {getWeatherIcon(dayWeather.description)} {dayWeather.temperature.max}°
+                    </div>
+                  )}
                 </div>
                 <div className="day-tasks">
                   {dayTasks.length > 0 ? (
                     dayTasks.map(plant => (
                       <div key={plant.id} className="day-task">
                         {plant.name}
+                        {plant.plantType === 'outdoor' && dayWeather && dayWeather.precipitation > 0 && (
+                          <span className="weather-note">🌧️</span>
+                        )}
                       </div>
                     ))
                   ) : (
@@ -269,6 +275,11 @@ const Dashboard = ({ plants, markWatered, markFed, weather, forecast, userLocati
             );
           })}
         </div>
+        {forecast && (
+          <div className="schedule-note">
+            💡 Rain icons (🌧️) suggest you might skip watering outdoor plants that day
+          </div>
+        )}
       </div>
     </div>
   );

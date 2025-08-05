@@ -25,6 +25,8 @@ const PlantCard = ({
     bloomingSeason: plant.bloomingSeason || '',
     notes: plant.notes
   });
+  
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const formatDate = (date) => {
     if (!date) return 'Never';
@@ -184,117 +186,151 @@ const PlantCard = ({
   }
 
   return (
-    <div className="plant-card">
+    <div className={`plant-card ${isExpanded ? 'expanded' : 'compact'}`}>
       <div className="plant-header">
         <h3>{plant.name}</h3>
         <div className="plant-actions">
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)} 
+            className="btn-icon" 
+            title={isExpanded ? "Collapse" : "Expand"}
+          >
+            {isExpanded ? "−" : "+"}
+          </button>
           <button onClick={onEdit} className="btn-icon" title="Edit">✏️</button>
           <button onClick={onDelete} className="btn-icon delete" title="Delete">🗑️</button>
         </div>
       </div>
       
-      <div className="plant-info">
-        <div className="plant-basic-info">
-          {plant.scientificName && plant.scientificName !== 'Unknown species' && (
-            <p className="plant-scientific">
-              <em>{plant.scientificName}</em>
-              {plant.category && <span className="plant-category"> • {plant.category}</span>}
-            </p>
-          )}
-          
-          <div className="plant-attributes">
-            <span className="plant-type">{plant.plantType || 'Indoor'}</span>
-            <span className="plant-lifecycle">{getLifecycleIcon(plant.lifecycle)} {plant.lifecycle || 'Perennial'}</span>
-            <span className="plant-sun">{getSunIcon(plant.sunRequirement)} {plant.sunRequirement || 'Partial'}</span>
-          </div>
-          
-          {plantAge && <p className="plant-age">🗓️ {plantAge}</p>}
-          {plant.location && <p className="plant-location">📍 {plant.location}</p>}
-          {plant.bloomingSeason && <p className="plant-blooming">🌸 Blooms in {plant.bloomingSeason}</p>}
-          
-          {!plant.autoPopulated && (
-            <div className="unknown-plant-note">
-              <span className="unknown-icon">❓</span>
-              <span>Using general care guidelines - monitor and adjust as needed</span>
-            </div>
-          )}
+      {/* Compact view - always visible */}
+      <div className="plant-compact-info">
+        <div className="plant-attributes-compact">
+          <span className="plant-type-compact">{plant.plantType || 'Indoor'}</span>
+          <span className="plant-sun-compact">{getSunIcon(plant.sunRequirement)}</span>
+          {plant.category && <span className="plant-category-compact">{plant.category}</span>}
         </div>
         
-        {plant.facts && plant.facts.length > 0 && (
-          <div className="plant-facts">
-            <h4>🌿 Plant Facts & Tips</h4>
-            <div className="facts-list">
-              {plant.facts.slice(0, 3).map((fact, index) => (
-                <div key={index} className="plant-fact">
-                  <span className="fact-bullet">•</span>
-                  <span className="fact-text">{fact}</span>
-                </div>
-              ))}
-              {plant.facts.length > 3 && (
-                <div className="more-facts">
-                  +{plant.facts.length - 3} more facts
+        <div className="care-status-compact">
+          <div className={`care-indicator ${getStatusClass(wateringDays)}`}>
+            💧 {wateringDays < 0 ? `${Math.abs(wateringDays)}d overdue` :
+                wateringDays === 0 ? 'Due today' :
+                `${wateringDays}d`}
+          </div>
+          <div className={`care-indicator ${getStatusClass(feedingDays)}`}>
+            🌿 {feedingDays < 0 ? `${Math.abs(feedingDays)}d overdue` :
+                feedingDays === 0 ? 'Due today' :
+                `${feedingDays}d`}
+          </div>
+        </div>
+      </div>
+
+      {/* Expanded view - only when expanded */}
+      {isExpanded && (
+        <>
+          <div className="plant-info">
+            <div className="plant-basic-info">
+              {plant.scientificName && plant.scientificName !== 'Unknown species' && (
+                <p className="plant-scientific">
+                  <em>{plant.scientificName}</em>
+                  {plant.category && <span className="plant-category"> • {plant.category}</span>}
+                </p>
+              )}
+              
+              <div className="plant-attributes">
+                <span className="plant-type">{plant.plantType || 'Indoor'}</span>
+                <span className="plant-lifecycle">{getLifecycleIcon(plant.lifecycle)} {plant.lifecycle || 'Perennial'}</span>
+                <span className="plant-sun">{getSunIcon(plant.sunRequirement)} {plant.sunRequirement || 'Partial'}</span>
+              </div>
+              
+              {plantAge && <p className="plant-age">🗓️ {plantAge}</p>}
+              {plant.location && <p className="plant-location">📍 {plant.location}</p>}
+              {plant.bloomingSeason && <p className="plant-blooming">🌸 Blooms in {plant.bloomingSeason}</p>}
+              
+              {!plant.autoPopulated && (
+                <div className="unknown-plant-note">
+                  <span className="unknown-icon">❓</span>
+                  <span>Using general care guidelines - monitor and adjust as needed</span>
                 </div>
               )}
             </div>
+            
+            {plant.facts && plant.facts.length > 0 && (
+              <div className="plant-facts">
+                <h4>🌿 Plant Facts & Tips</h4>
+                <div className="facts-list">
+                  {plant.facts.slice(0, 3).map((fact, index) => (
+                    <div key={index} className="plant-fact">
+                      <span className="fact-bullet">•</span>
+                      <span className="fact-text">{fact}</span>
+                    </div>
+                  ))}
+                  {plant.facts.length > 3 && (
+                    <div className="more-facts">
+                      +{plant.facts.length - 3} more facts
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {plant.careNotes && (
+              <div className="care-notes">
+                <h4>💡 Care Tips</h4>
+                <p>{plant.careNotes}</p>
+              </div>
+            )}
           </div>
-        )}
-        
-        {plant.careNotes && (
-          <div className="care-notes">
-            <h4>💡 Care Tips</h4>
-            <p>{plant.careNotes}</p>
-          </div>
-        )}
-      </div>
 
-      {weatherImpact && (
-        <div className="weather-impact">
-          <div className="weather-header">
-            <span className="weather-title">🌤️ Weather Impact</span>
-            <span className="weather-adjustment">{weatherImpact.adjustmentText}</span>
-          </div>
-          {weatherImpact.recommendations && weatherImpact.recommendations.length > 0 && (
-            <div className="weather-recommendations">
-              {weatherImpact.recommendations.map((rec, index) => (
-                <div key={index} className="weather-rec">{rec}</div>
-              ))}
+          {weatherImpact && (
+            <div className="weather-impact">
+              <div className="weather-header">
+                <span className="weather-title">🌤️ Weather Impact</span>
+                <span className="weather-adjustment">{weatherImpact.adjustmentText}</span>
+              </div>
+              {weatherImpact.recommendations && weatherImpact.recommendations.length > 0 && (
+                <div className="weather-recommendations">
+                  {weatherImpact.recommendations.map((rec, index) => (
+                    <div key={index} className="weather-rec">{rec}</div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
-        </div>
-      )}
-      
-      <div className="care-schedule">
-        <div className={`care-item ${getStatusClass(wateringDays)}`}>
-          <div className="care-info">
-            <span className="care-type">💧 Watering</span>
-            <span className="care-status">
-              {wateringDays < 0 ? `${Math.abs(wateringDays)} days overdue` :
-               wateringDays === 0 ? 'Due today' :
-               `In ${wateringDays} days`}
-            </span>
-            <small>Last watered: {formatDate(plant.lastWatered)}</small>
+          
+          <div className="care-schedule">
+            <div className={`care-item ${getStatusClass(wateringDays)}`}>
+              <div className="care-info">
+                <span className="care-type">💧 Watering</span>
+                <span className="care-status">
+                  {wateringDays < 0 ? `${Math.abs(wateringDays)} days overdue` :
+                   wateringDays === 0 ? 'Due today' :
+                   `In ${wateringDays} days`}
+                </span>
+                <small>Last watered: {formatDate(plant.lastWatered)}</small>
+              </div>
+              <button onClick={onMarkWatered} className="btn-care">Watered</button>
+            </div>
+            
+            <div className={`care-item ${getStatusClass(feedingDays)}`}>
+              <div className="care-info">
+                <span className="care-type">🌿 Feeding</span>
+                <span className="care-status">
+                  {feedingDays < 0 ? `${Math.abs(feedingDays)} days overdue` :
+                   feedingDays === 0 ? 'Due today' :
+                   `In ${feedingDays} days`}
+                </span>
+                <small>Last fed: {formatDate(plant.lastFed)}</small>
+              </div>
+              <button onClick={onMarkFed} className="btn-care">Fed</button>
+            </div>
           </div>
-          <button onClick={onMarkWatered} className="btn-care">Watered</button>
-        </div>
-        
-        <div className={`care-item ${getStatusClass(feedingDays)}`}>
-          <div className="care-info">
-            <span className="care-type">🌿 Feeding</span>
-            <span className="care-status">
-              {feedingDays < 0 ? `${Math.abs(feedingDays)} days overdue` :
-               feedingDays === 0 ? 'Due today' :
-               `In ${feedingDays} days`}
-            </span>
-            <small>Last fed: {formatDate(plant.lastFed)}</small>
-          </div>
-          <button onClick={onMarkFed} className="btn-care">Fed</button>
-        </div>
-      </div>
-      
-      {plant.notes && (
-        <div className="plant-notes">
-          <p>{plant.notes}</p>
-        </div>
+          
+          {plant.notes && (
+            <div className="plant-notes">
+              <p>{plant.notes}</p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

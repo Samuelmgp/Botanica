@@ -793,6 +793,358 @@ body {
   padding: 0.25rem 0;
 }
 
+/* About Us Page */
+.about-us {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%);
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero-content h2 {
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.btn-hero {
+  background: white;
+  color: #00b894;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.hero-plants {
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.plant-icon {
+  font-size: 2rem;
+  opacity: 0.3;
+  animation: float 3s ease-in-out infinite;
+}
+
+.plant-icon:nth-child(2) { animation-delay: 0.5s; }
+.plant-icon:nth-child(3) { animation-delay: 1s; }
+.plant-icon:nth-child(4) { animation-delay: 1.5s; }
+.plant-icon:nth-child(5) { animation-delay: 2s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.features-section,
+.how-it-works {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-section h3,
+.how-it-works h3 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2d3436;
+  margin-bottom: 3rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card h4 {
+  color: #2d3436;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  color: #636e72;
+  line-height: 1.6;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 300px;
+}
+
+.step-number {
+  background: #00b894;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  color: #2d3436;
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  color: #636e72;
+  font-size: 0.9rem;
+}
+
+.cta-section {
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.cta-section h3 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.btn-cta {
+  background: white;
+  color: #74b9ff;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Login Page */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-container {
+  background: white;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  color: #2d3436;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: #636e72;
+  font-size: 1.1rem;
+}
+
+.login-form {
+  margin-bottom: 2rem;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+}
+
+.login-features {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.login-features h4 {
+  color: #2d3436;
+  margin-bottom: 1rem;
+}
+
+.login-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.login-features li {
+  color: #636e72;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #00b894;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+.btn-link:hover {
+  color: #00a085;
+}
+
+/* Notifications */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+.notification.success {
+  background: #00b894;
+}
+
+.notification.info {
+  background: #74b9ff;
+}
+
+.notification.error {
+  background: #e17055;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Updated Header */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 /* Enhanced Stats Grid */
 .stats-grid {
   display: grid;
@@ -1054,6 +1406,160 @@ body {
   font-size: 0.9rem;
   line-height: 1.4;
   margin: 0;
+}
+
+/* Compact Plant Cards */
+.plant-card.compact {
+  min-height: auto;
+}
+
+.plant-compact-info {
+  margin-bottom: 1rem;
+}
+
+.plant-attributes-compact {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.plant-type-compact {
+  background: #e8f4fd;
+  color: #0984e3;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.plant-sun-compact {
+  font-size: 1.2rem;
+}
+
+.plant-category-compact {
+  background: #e8f5e8;
+  color: #00b894;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.care-status-compact {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.care-indicator {
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-left: 3px solid;
+}
+
+.care-indicator.overdue {
+  background-color: #ffeaa7;
+  border-left-color: #e17055;
+  color: #d63031;
+}
+
+.care-indicator.due-today {
+  background-color: #a8e6cf;
+  border-left-color: #00b894;
+  color: #00b894;
+}
+
+.care-indicator.due-soon {
+  background-color: #ffd3a5;
+  border-left-color: #fdcb6e;
+  color: #e17055;
+}
+
+.care-indicator.good {
+  background-color: #f1f3f4;
+  border-left-color: #b2dfdb;
+  color: #636e72;
+}
+
+/* Compact Weather Forecast */
+.weather-forecast-compact {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.weather-forecast-compact h4 {
+  color: #2d3436;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.forecast-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.forecast-item {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+}
+
+.forecast-day-name {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin-bottom: 0.25rem;
+}
+
+.forecast-weather {
+  display: block;
+  font-size: 0.8rem;
+  color: #636e72;
+  margin-bottom: 0.25rem;
+}
+
+.forecast-rain-compact {
+  display: block;
+  font-size: 0.7rem;
+  color: #74b9ff;
+  font-weight: 500;
+}
+
+/* Weekly Schedule with Weather */
+.day-weather {
+  font-size: 0.7rem;
+  color: #636e72;
+  margin-top: 0.25rem;
+}
+
+.day-column.today .day-weather {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.weather-note {
+  margin-left: 0.25rem;
+}
+
+.schedule-note {
+  background: #e8f5e8;
+  color: #00b894;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+  border-left: 3px solid #00b894;
 }
 
 /* Edit Form Enhancements */
